@@ -39,7 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'hogares',
+    'crispy_forms',
+    'crispy_bootstrap5',
+
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -71,6 +78,7 @@ TEMPLATES = [
 
 LOGIN_REDIRECT_URL = 'lista_hogares'
 LOGOUT_REDIRECT_URL = 'login'
+LOGIN_REDIRECT_URL = 'formulario_hogar'
 
 WSGI_APPLICATION = 'proyecto_vivienda.wsgi.application'
 
@@ -120,7 +128,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

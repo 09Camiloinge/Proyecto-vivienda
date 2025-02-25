@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
+@login_required
+def formulario_hogar(request):
+    return render(request, 'hogares/formulario_hogar.html')
+
 @login_required(login_url='login')
 def lista_hogares(request):
     # Aquí irán los datos de hogares. Por ahora, una lista de ejemplo.
