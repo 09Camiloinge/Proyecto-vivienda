@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Hogares</title>
+</head>
+<body>
+    <h1>Lista de Hogares</h1>
+    <a href="{% url 'hogar_create' %}">Agregar Hogar</a>
+    <ul>
+        {% for hogar in hogares %}
+            <li>{{ hogar.jefe_hogar }} - {{ hogar.direccion }} ({{ hogar.anos_residencia }} años)</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
