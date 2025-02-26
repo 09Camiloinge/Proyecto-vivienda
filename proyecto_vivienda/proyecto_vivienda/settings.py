@@ -41,11 +41,13 @@ INSTALLED_APPS = [
     'hogares',
     'crispy_forms',
     'crispy_bootstrap5',
+    'vivienda'
 
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
 
 
 MIDDLEWARE = [
@@ -76,9 +78,9 @@ TEMPLATES = [
     },
 ]
 
-LOGIN_REDIRECT_URL = 'lista_hogares'
-LOGOUT_REDIRECT_URL = 'login'
 LOGIN_REDIRECT_URL = 'formulario_hogar'
+LOGOUT_REDIRECT_URL = 'login'
+
 
 WSGI_APPLICATION = 'proyecto_vivienda.wsgi.application'
 

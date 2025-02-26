@@ -24,7 +24,7 @@ def user_login(request):
 
         if user is not None:
             login(request, user)
-            return redirect('lista_hogares')  # Asegúrate de que esta URL esté definida
+            return redirect('formulario_hogar')  
         else:
             messages.error(request, 'Usuario o contraseña incorrectos.')
 
@@ -33,4 +33,4 @@ def user_login(request):
 
 def user_logout(request):
     logout(request)
-    return redirect('login') 
+    return redirect('login')
