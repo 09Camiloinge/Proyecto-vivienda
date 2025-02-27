@@ -63,8 +63,8 @@ ROOT_URLCONF = 'proyecto_vivienda.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
+        'DIRS': [BASE_DIR / "templates"],  # Asegura que busca en la carpeta global
+        'APP_DIRS': True,  # Habilita la búsqueda en las apps
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -75,6 +75,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 LOGIN_REDIRECT_URL = 'seleccionar_convocatoria'
 LOGOUT_REDIRECT_URL = 'login'

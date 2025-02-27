@@ -1,9 +1,13 @@
 from django import forms
+from .models import Inscripcion
 from .models import Convocatoria
 
-class SeleccionConvocatoriaForm(forms.Form):
-    convocatoria = forms.ModelChoiceField(
-        queryset=Convocatoria.objects.all(),
-        empty_label="Selecciona una convocatoria",
-        widget=forms.Select(attrs={'class': 'form-control'})
-    )
+class ConvocatoriaForm(forms.ModelForm):
+    class Meta:
+        model = Convocatoria
+        fields = ['nombre', 'descripcion']
+
+class InscripcionForm(forms.ModelForm):
+    class Meta:
+        model = Inscripcion
+        fields = ['nombre', 'correo', 'telefono']
