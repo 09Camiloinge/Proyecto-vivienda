@@ -1,32 +1,21 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from .forms import ConvocatoriaForm
+from hogares.models import Convocatoria
+from .forms import SeleccionConvocatoriaForm
 
 def seleccionar_convocatoria(request):
-    form = ConvocatoriaForm()
-    convocatoria_seleccionada = None
+    form = SeleccionConvocatoriaForm()
 
     if request.method == 'POST':
-        form = ConvocatoriaForm(request.POST)
+        form = SeleccionConvocatoriaForm(request.POST)
         if form.is_valid():
             convocatoria_seleccionada = form.cleaned_data['convocatoria']
+            return render(request, 'hogares/convocatoria_seleccionada.html', {'convocatoria': convocatoria_seleccionada})
 
-    return render(request, 'hogares/seleccionar_convocatoria.html', {
-        'form': form,
-        'convocatoria_seleccionada': convocatoria_seleccionada
-    })
-
+    return render(request, 'hogares/seleccionar_convocatoria.html', {'form': form})
 
 @login_required
 def formulario_hogar(request):
     return render(request, 'hogares/formulario_hogar.html')
 
-@login_required(login_url='login')
-def lista_hogares(request):
-    # Aquí irán los datos de hogares. Por ahora, una lista de ejemplo.
-    hogares = [
-        {'nombre': 'Familia Gómez', 'puntaje': 85},
-        {'nombre': 'Familia Pérez', 'puntaje': 72},
-    ]
-    return render(request, 'hogares/lista_hogares.html', {'hogares': hogares})

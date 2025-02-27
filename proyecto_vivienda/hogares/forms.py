@@ -1,14 +1,9 @@
 from django import forms
+from .models import Convocatoria
 
-class ConvocatoriaForm(forms.Form):
-    CONVOCATORIAS = [
-        ('convocatoria_1', 'Convocatoria 1'),
-        ('convocatoria_2', 'Convocatoria 2'),
-        ('convocatoria_3', 'Convocatoria 3'),
-        ('convocatoria_4', 'Convocatoria 4'),
-    ]
-    convocatoria = forms.ChoiceField(
-        choices=CONVOCATORIAS,
-        label='Seleccionar convocatoria',
-        widget=forms.Select(attrs={'class': 'form-select'})
+class SeleccionConvocatoriaForm(forms.Form):
+    convocatoria = forms.ModelChoiceField(
+        queryset=Convocatoria.objects.all(),
+        empty_label="Selecciona una convocatoria",
+        widget=forms.Select(attrs={'class': 'form-control'})
     )

@@ -1,8 +1,7 @@
 from django.urls import path
 from . import views
+from .views import seleccionar_convocatoria
 
 urlpatterns = [
-    path('', views.lista_hogares, name='lista_hogares'),
-     path('seleccionar_convocatoria/', views.seleccionar_convocatoria, name='seleccionar_convocatoria'),
-
+     path('seleccionar/', seleccionar_convocatoria, name='seleccionar_convocatoria'),
 ]
