@@ -41,8 +41,6 @@ INSTALLED_APPS = [
     'hogares',
     'crispy_forms',
     'crispy_bootstrap5',
-    'vivienda'
-
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
@@ -78,7 +76,7 @@ TEMPLATES = [
     },
 ]
 
-LOGIN_REDIRECT_URL = 'formulario_hogar'
+LOGIN_REDIRECT_URL = 'seleccionar_convocatoria'
 LOGOUT_REDIRECT_URL = 'login'
 
 
