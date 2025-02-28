@@ -1,11 +1,29 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Convocatoria
 from .forms import ConvocatoriaForm
 from django.contrib.auth.decorators import user_passes_test
-from .forms import InscripcionForm  # Asegúrate de que tienes el formulario
 from django.http import HttpResponse
 from hogares.models import Convocatoria
+from django.shortcuts import render, redirect
+from .forms import PostulacionForm
+from .models import Inscripcion
+from django.shortcuts import render
+
+def postular(request):
+    return render(request, 'hogares/formulario_postulacion.html')
+
+
+def formulario_postulacion(request):
+    if request.method == "POST":
+        form = PostulacionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('alguna_vista')  # Ajusta la redirección
+    else:
+        form = PostulacionForm()
+
+    return render(request, "hogares/formulario_postulacion.html", {"form": form})
 
 def agregar_convocatorias(request):
     convocatorias = [
@@ -31,17 +49,17 @@ def inscribirse_convocatoria(request, convocatoria_id):
     convocatoria = get_object_or_404(Convocatoria, id=convocatoria_id)
 
     if request.method == "POST":
-        form = InscripcionForm(request.POST)
+        form = Inscripcion(request.POST)
         if form.is_valid():
             inscripcion = form.save(commit=False)
-            inscripcion.convocatoria = convocatoria  # Asignamos la convocatoria
+            inscripcion.convocatoria = convocatoria  # Relacionamos la inscripción con la convocatoria
             inscripcion.save()
-            return redirect('seleccionar_convocatoria')  # Redirige al usuario después de inscribirse
+            # Redirige después de guardar
+            return redirect('convocatoria1')
     else:
-        form = InscripcionForm()
+        form = Inscripcion()
 
-    return render(request, 'hogares/formulario_convocatoria.html', {'form': form, 'convocatoria': convocatoria})
-
+    return render(request, 'hogares/formulario_postulacion.html', {'form': form})
 @user_passes_test(lambda u: u.is_superuser)
 def eliminar_convocatoria(request, convocatoria_id):
     convocatoria = get_object_or_404(Convocatoria, id=convocatoria_id)

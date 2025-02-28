@@ -1,21 +1,106 @@
+
 <!DOCTYPE html>
+{% load static %}
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seleccionar Convocatoria</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        /* Fondo con gradiente animado */
+        body {
+            background: linear-gradient(-45deg, #1e3c72, #2a5298, #00c6ff, #0072ff);
+            background-size: 400% 400%;
+            animation: gradient 10s ease infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Tarjeta centrada */
+        .container-box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        /* Botones de convocatorias */
+        .btn-custom {
+            background: #007bff !important;
+            border: none;
+            font-size: 1.1rem;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            width: 100%;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-custom:hover {
+            background: #0056b3 !important;
+            transform: translateY(-3px);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Estilo del encabezado original */
+        .header {
+            width: 100%;
+            background: white;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            justify-content: center;
+            border-bottom: 3px solid #007bff;
+        }
+
+        .header img {
+            width: 90px;
+            height: 90px;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: black;
+        }
+
+    </style>
 </head>
 <body>
-    <div class="container mt-4">
-        <h2>Selecciona una Convocatoria</h2>
+
+    <div class="header">
+        <img src="{% static 'PIEDEMONTE.png' %}" alt="Logo">
+        <h1>Piedemonte EICM Empresa de Desarrollo Urbano</h1>
+    </div>
+
+    <div class="container-box">
+        <h2 class="mb-4 text-dark">Selecciona una Convocatoria</h2>
         {% for convocatoria in convocatorias %}
-            <a href="{% url 'inscribirse_convocatoria' convocatoria.id %}" class="btn btn-primary mt-2">
+            <a href="{% url 'inscribirse_convocatoria' convocatoria.id %}" class="btn btn-primary btn-custom">
                 {{ convocatoria.nombre }}
-            </a><br>
+            </a>
         {% empty %}
             <p>No hay convocatorias disponibles.</p>
         {% endfor %}
     </div>
+
 </body>
 </html>
