@@ -1,29 +1,37 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .models import Convocatoria
-from .forms import ConvocatoriaForm
-from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponse
-from hogares.models import Convocatoria
-from django.shortcuts import render, redirect
-from .forms import PostulacionForm
-from .models import Inscripcion
-from django.shortcuts import render
-
-def postular(request):
-    return render(request, 'hogares/formulario_postulacion.html')
-
+from .models import Convocatoria, Postulacion
+from .forms import ConvocatoriaForm, PostulacionForm, InscripcionForm
 
 def formulario_postulacion(request):
     if request.method == "POST":
         form = PostulacionForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('alguna_vista')  # Ajusta la redirección
+            form.save()  # Ahora sí guarda porque PostulacionForm es un ModelForm
+            return redirect('seleccionar_convocatoria')  # Ajusta la redirección
     else:
         form = PostulacionForm()
 
     return render(request, "hogares/formulario_postulacion.html", {"form": form})
+
+def postular(request, convocatoria_id):
+    convocatoria = get_object_or_404(Convocatoria, id=convocatoria_id)  # Obtiene la convocatoria
+
+    if request.method == "POST":
+        form = PostulacionForm(request.POST)
+        if form.is_valid():
+            postulacion = form.save(commit=False)
+            postulacion.convocatoria = convocatoria  # Asigna la convocatoria a la postulación
+            postulacion.save()
+            return redirect('lista_convocatorias')  # Redirige a la lista de convocatorias
+    else:
+        form = PostulacionForm()  # Formulario vacío si es GET
+
+    return render(request, 'hogares/formulario_postulacion.html', {
+        'form': form,
+        'convocatoria': convocatoria
+    })
 
 def agregar_convocatorias(request):
     convocatorias = [
@@ -38,35 +46,23 @@ def agregar_convocatorias(request):
 
     return HttpResponse("Convocatorias agregadas correctamente.")
 
-
-# Muestra la lista de convocatorias
 def seleccionar_convocatoria(request):
     convocatorias = Convocatoria.objects.all()
     return render(request, 'hogares/seleccionar_convocatoria.html', {'convocatorias': convocatorias})
 
-# Redirige al formulario de inscripción con la convocatoria seleccionada
-def inscribirse_convocatoria(request, convocatoria_id):
+def postular_convocatoria(request, convocatoria_id):
     convocatoria = get_object_or_404(Convocatoria, id=convocatoria_id)
-
     if request.method == "POST":
-        form = Inscripcion(request.POST)
-        if form.is_valid():
-            inscripcion = form.save(commit=False)
-            inscripcion.convocatoria = convocatoria  # Relacionamos la inscripción con la convocatoria
-            inscripcion.save()
-            # Redirige después de guardar
-            return redirect('convocatoria1')
-    else:
-        form = Inscripcion()
+        # Lógica para postular
+        pass
+    return render(request, 'hogares/formulario_postulacion.html', {'convocatoria': convocatoria})
 
-    return render(request, 'hogares/formulario_postulacion.html', {'form': form})
 @user_passes_test(lambda u: u.is_superuser)
 def eliminar_convocatoria(request, convocatoria_id):
     convocatoria = get_object_or_404(Convocatoria, id=convocatoria_id)
     convocatoria.delete()
     return redirect('crud_convocatorias')
 
-# Vista para el CRUD (solo superusuario)
 @user_passes_test(lambda u: u.is_superuser)
 def crud_convocatorias(request):
     convocatorias = Convocatoria.objects.all()

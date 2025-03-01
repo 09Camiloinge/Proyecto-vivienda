@@ -94,7 +94,7 @@
     <div class="container-box">
         <h2 class="mb-4 text-dark">Selecciona una Convocatoria</h2>
         {% for convocatoria in convocatorias %}
-            <a href="{% url 'inscribirse_convocatoria' convocatoria.id %}" class="btn btn-primary btn-custom">
+            <a href="{% url 'postular' convocatoria.id %}" class="btn btn-primary btn-custom">
                 {{ convocatoria.nombre }}
             </a>
         {% empty %}
